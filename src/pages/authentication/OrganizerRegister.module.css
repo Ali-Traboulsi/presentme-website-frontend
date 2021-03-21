@@ -1,0 +1,24 @@
+.outwards {
+    margin: 0;
+    background-color: #1b262c !important;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+.container {
+    color: black;
+    height: 100%;
+}
+
+.formContainer {
+    width: 24rem;
+}
+.formLegend {
+    width : 14rem;
+    background: #dee2e6;
+}
+.errrMessage {
+    font-size: 14rem;
+    letter-spacing: 0.05rem;
+    padding-left: 0.25rem;
+}

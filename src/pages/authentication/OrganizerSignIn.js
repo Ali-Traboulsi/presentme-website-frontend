@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {ACCESS_TOKEN_NAME} from '../../constants/apiConstants';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 import {makeStyles} from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom';
 import {
     Avatar,
     TextField,
@@ -16,7 +15,7 @@ import {
 
 // import { useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import axios from "axios";
+import {organizerLogin} from "../../api";
 
 
 const OrganizerSignIn = () => {
@@ -40,6 +39,7 @@ const OrganizerSignIn = () => {
         )
     };
 
+
     const handleSubmitClick = async (e) => {
         const payload ={
             "email" : state.email,
@@ -47,31 +47,17 @@ const OrganizerSignIn = () => {
         }
 
         try {
-            const response = await axios.post(`http://127.0.0.1:8000/api/organizer/login`, payload);
-            console.log(response);
 
-            if (response.status === 200 && response.data.token) {
-                setState(prevState => ({
-                    ...prevState,
-                    'successMsg': 'Login Successful. Redirecting to Dashboard'
-                }))
-
-                localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token)
-                // redirectToDashboard();
-                redirectToHome();
+            const success = await organizerLogin(payload, setState);
+            if (success) {
+                history.push('/organizer/dashboard');
             }
+
         } catch (e) {
             console.log(e)
         }
     };
 
-    const redirectToDashboard = () => {
-        history.push('/Dashboard');
-    }
-
-    const redirectToHome = () => {
-        history.push('/home')
-    }
 
     const redirectToOrganizerRegister = () => {
         history.push('/organizer/register');
@@ -130,7 +116,7 @@ const OrganizerSignIn = () => {
             </div>
             <div className="registerMessage">
                 <span>Dont have an account? </span>
-                <span className="loginText" onClick={() => redirectToOrganizerRegister()}>Register</span>
+                <Button className="loginText" onClick={() => redirectToOrganizerRegister()}>Register</Button>
             </div>
 
             <Box mt={8} >

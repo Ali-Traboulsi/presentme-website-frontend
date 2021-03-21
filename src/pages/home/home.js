@@ -1,6 +1,5 @@
 import React from 'react';
 import {useHistory} from 'react-router-dom';
-import {red} from "@material-ui/core/colors";
 
 const Home = props => {
 

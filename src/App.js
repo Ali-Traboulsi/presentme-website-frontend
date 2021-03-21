@@ -1,10 +1,13 @@
-import './App.css';
-import OrganizerSignIn from "./pages/authentication/OrganizerSignIn";
+// import './App.css';
+// import OrganizerSignIn from "./pages/authentication/OrganizerSignIn";
+//
+// function App() {
+//   return (
+//       <OrganizerSignIn/>
+//   );
+// }
+//
+// export default App;
 
-function App() {
-  return (
-      <OrganizerSignIn/>
-  );
-}
-
+const App = (props) => props.children;
 export default App;
