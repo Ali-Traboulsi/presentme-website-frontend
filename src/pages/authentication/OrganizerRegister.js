@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {
     withStyles,
-    TableContainer, Paper, Table, TableRow, TableCell, makeStyles, TextField, RadioGroup, Radio, FormControlLabel, Button, InputBase, InputLabel, FormControl, NativeSelect, Select, Box
+    TableContainer, Paper, Table, TableRow, TableCell, makeStyles, TextField, RadioGroup, Radio, FormControlLabel, Button, InputBase, InputLabel, FormControl, Select, Box
 } from '@material-ui/core'
 import { createMuiTheme } from '@material-ui/core/styles';
 import {useHistory} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import {baseUrl, getGenders, organizerLogin, organizerRegister} from "../../api";
+import {baseUrl, getGenders, organizerRegister} from "../../api";
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 
@@ -34,7 +34,7 @@ const OrganizerRegister = props => {
 
     const [gender, setGender] = useState([]);
     const [avatar, setAvatar] = useState(null);
-    const [isFetching, setIsFetching] = useState(true);
+    // const [isFetching, setIsFetching] = useState(true);
 
     const getGenders = async () => {
         try {
@@ -53,30 +53,6 @@ const OrganizerRegister = props => {
 
     useEffect(() => {
         getGenders()
-        // setRegisterState({
-        //     ...registerState,
-        //     gender: succsess.data
-        // });
-        // console.log(registerState);
-        // setGender(succsess.data);
-        // console.log(gender);
-        // const fetchGenders = async () => {
-        //     // const Gendersuccess = await axios.get('http://127.0.0.1:8000/api/gender');
-        //     // if (Gendersuccess) {
-        //     //     console.log(Gendersuccess);
-        //     //     setIsFetching(false);
-        //     //     // setRegisterState({
-        //     //     //         ...registerState,
-        //     //     //          gender : Gendersuccess.data.data.data
-        //     //     //     });
-        //     //     setGender(Gendersuccess.data.data.data);
-        //     //     console.log(gender);
-        //     }
-        //     else {
-        //         console.log('success not found');
-        //     }
-        // };
-        // fetchGenders();
     }, []);
 
     console.log(gender);
@@ -99,6 +75,10 @@ const OrganizerRegister = props => {
         )
     };
 
+    const returnToLogin = () => {
+        history.push('login');
+    }
+
     const handleChangeGender = (e) => {
         e.preventDefault();
         try {
@@ -113,35 +93,35 @@ const OrganizerRegister = props => {
         }
     }
 
-    const handleFormSubmit = async (e) => {
-        const payload ={
-            "email" : registerState.email,
-            "DOB": registerState.DOB,
-            "password": registerState.password,
-            "firstName": registerState.firstName,
-            "lastName": registerState.lastName,
-            "username": registerState.username,
-            "prevExp": registerState.prevExp,
-            "whyToJoin": registerState.whyToJoin,
-            "avatar": registerState.avatar,
-            "gender_id": registerState.gender_id
-        }
-
-        try {
-
-            const registerSuccess = await organizerRegister(payload, setRegisterState);
-            if (registerSuccess) {
-                history.push('/organizer/dashboard');
-            }
-            else {
-                alert("register Unsuccessful")
-                history.push('/organizer/register');
-            }
-
-        } catch (e) {
-            console.log(e)
-        }
-    };
+    // const handleFormSubmit = async (e) => {
+    //     const payload ={
+    //         "email" : registerState.email,
+    //         "DOB": registerState.DOB,
+    //         "password": registerState.password,
+    //         "firstName": registerState.firstName,
+    //         "lastName": registerState.lastName,
+    //         "username": registerState.username,
+    //         "prevExp": registerState.prevExp,
+    //         "whyToJoin": registerState.whyToJoin,
+    //         "avatar": registerState.avatar,
+    //         "gender_id": registerState.gender_id
+    //     }
+    //
+    //     try {
+    //
+    //         const registerSuccess = await organizerRegister(payload, setRegisterState);
+    //         if (registerSuccess) {
+    //             history.push('/organizer/dashboard');
+    //         }
+    //         else {
+    //             alert("register Unsuccessful")
+    //             history.push('/organizer/register');
+    //         }
+    //
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // };
 
     const handlechangeFile = (e) => {
         e.preventDefault();
@@ -491,12 +471,27 @@ const OrganizerRegister = props => {
                                         >Submit
                                         </Button>
                                     </TableCell>
+
+                                    <TableCell>
+                                        <Button
+                                            className= {classes.submit}
+                                            type="submit"
+                                            fullWidth
+                                            variant='contained'
+                                            color='primary'
+                                            onClick={returnToLogin}
+                                        >
+                                            Back To Login
+                                        </Button>
+                                    </TableCell>
+
                                 </TableRow>
-
-
                             </Table>
+
                         </form>
                     </TableContainer>
+
+
                 </div>
             </div>
         </>

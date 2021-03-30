@@ -9,6 +9,9 @@ import {
 import OrganizerSignIn from "../pages/authentication/OrganizerSignIn";
 import Home from "../pages/home/home";
 import OrganizerRegister from "../pages/authentication/OrganizerRegister";
+import Dashboard from "../pages/dashboard/dashboard";
+import Event from "../pages/dashboard/Event";
+import AddEvent from "../components/addEvent";
 
 const authRoute = (Component) => () => {
     // const response = await adminLogin(data);
@@ -16,7 +19,7 @@ const authRoute = (Component) => () => {
     if (localStorage.getItem('access_token')) {
         return <Component />
     } else {
-        return <Redirect to='/login' />
+        return <Redirect to='/organizer/login' />
     }
 }
 
@@ -31,7 +34,9 @@ const Routes = props => {
                 <Route path='/organizer/login' component={OrganizerSignIn}/>
                 <Route path='/home' component={Home}/>
                 <Route path='/organizer/register' component={OrganizerRegister}/>
-                {/*<Route path='/home/dashboard' component={authRoute()}/>*/}
+                <Route path='/organizer/dashboard' component={authRoute(Dashboard)}/>
+                <Route path='/organizer/dashboard/events' component={authRoute(Event)}/>
+                <Route path='/organizer/add_event' component={authRoute(AddEvent)}/>
                 {/*<Route path='/admin' component={authRoute()}/>*/}
             </Switch>
         </Router>

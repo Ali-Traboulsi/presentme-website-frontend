@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ACCESS_TOKEN_NAME} from "./constants/apiConstants";
+import {ACCESS_TOKEN_NAME, USER_NAME} from "./constants/apiConstants";
 
 export const baseUrl = 'http://127.0.0.1:8000/api/';
 
@@ -16,7 +16,9 @@ export const organizerLogin = async (data, setState) => {
                 'successMsg': 'Login Successful. Redirecting to Dashboard'
             }))
 
-            localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token)
+            localStorage.setItem(ACCESS_TOKEN_NAME, response.data.token);
+            localStorage.setItem('firstName', response.data.data.firstName);
+            localStorage.setItem('lastName', response.data.data.lastName);
 
             return response.data;
         }
