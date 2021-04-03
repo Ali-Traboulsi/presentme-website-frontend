@@ -48,6 +48,7 @@ const AddEvent = props => {
         organizer_id: "",
         sub_cat_id: "",
         event_type_id: "",
+        cat_id: "",
     })
 
     const [categories, setCategories] = useState([]);
@@ -56,17 +57,18 @@ const AddEvent = props => {
     const getCategories = async () => {
         try {
             const response = await axios.get(`${baseUrl}category`);
-            console.log(response);
-
-        } catch (e) {
-            console.log(e)
+            console.log(response.data.data.data);
+            setCategories(response.data.data.data);
+            console.log(categories);
+        } catch (err) {
+            console.log(err)
         }
     }
 
     const getSubCategories = async () => {
         try {
             const response = await axios.get(`${baseUrl}sub_category`);
-            console.log(response);
+            console.log(response.data.data.data);
         } catch (err) {
             console.log(err);
         }
@@ -75,6 +77,31 @@ const AddEvent = props => {
     useEffect(() => {
         getCategories();
     }, [])
+
+
+    const handleCatChange = (e) => {
+        e.preventDefault();
+        try {
+            const value = e.target.value;
+            categories.map(item => item.category_name === value
+                ? setNewEvent({...newEvent, cat_id: item.id})
+                : item
+            );
+            console.log(newEvent.cat_id);
+            handleSubCatOnCatClick();
+        } catch (err) {
+             console.log(err);
+        }
+    }
+
+    const handleSubCatOnCatClick = async () => {
+        try {
+            const response = await axios.get(`${baseUrl}sub_category/${newEvent.cat_id}`)
+            console.log(response);
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
         <>
@@ -174,12 +201,15 @@ const AddEvent = props => {
                                         <Select
                                             native
                                             inputRef={register}
-                                            // onChange={handleChangeGender}
+                                            onChange={() => handleCatChange}
                                             inputProps={{
                                             }}
-                                        >
+                                        >)
                                             <option aria-label="None" value="" />
-
+                                            {(categories.length != 0)
+                                                ? categories.map(val => <option key={val.id}>{val.category_name}</option>)
+                                                : null
+                                            }
                                         </Select>
                                     </FormControl>
                                 </TableCell>
